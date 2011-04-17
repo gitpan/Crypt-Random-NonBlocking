@@ -10,8 +10,6 @@ WriteMakefile(
     PL_FILES            => {},
     PREREQ_PM => {
         'Test::More' => 0,
-        'version'    => 0,
-	'Readonly'   => 0,
 	'Carp'       => 0,
 	'English'    => 0,
 	($^O eq 'MSWin32') ? ( 'Win32::API' => 0 ) : ( 'FileHandle' => 0 ),

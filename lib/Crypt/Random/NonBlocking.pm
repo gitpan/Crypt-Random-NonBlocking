@@ -4,19 +4,14 @@ use warnings;
 use strict;
 use Carp();
 use English qw( -no_match_vars );
-use Readonly();
 
-our $VERSION = '0.0.19';
+our $VERSION = '0.0.21';
 
-my (
-    $CRYPT_SILENT,      $PROV_RSA_FULL, $VERIFY_CONTEXT,
-    $W2K_MAJOR_VERSION, $W2K_MINOR_VERSION
-);
-Readonly::Scalar $CRYPT_SILENT      => 64;
-Readonly::Scalar $PROV_RSA_FULL     => 1;
-Readonly::Scalar $VERIFY_CONTEXT    => hex 'F0000000';
-Readonly::Scalar $W2K_MAJOR_VERSION => 5;
-Readonly::Scalar $W2K_MINOR_VERSION => 0;
+my $CRYPT_SILENT      = hex '40';
+my $PROV_RSA_FULL     = 1;
+my $VERIFY_CONTEXT    = hex 'F0000000';
+my $W2K_MAJOR_VERSION = hex '5';
+my $W2K_MINOR_VERSION = 0;
 
 sub new {
     my ($class) = @_;
@@ -155,7 +150,7 @@ Crypt::Random::NonBlocking - Provide non blocking randomness
 
 =head1 VERSION
 
-This document describes Crypt::Random::NonBlocking version 0.0.19
+This document describes Crypt::Random::NonBlocking version 0.0.21
 
 
 =head1 SYNOPSIS

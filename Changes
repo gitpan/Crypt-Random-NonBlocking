@@ -1,5 +1,8 @@
 Revision history for Crypt-Random-NonBlocking
 
+0.0.21  Mon Apr 18 07:00:17 2011
+       Removed dependency Readonly entirely as it is a non-core module
+
 0.0.19  Sun Apr 17 20:42:17 2011
        Added dependency Readonly to fix RT Ticket 67532 filed by YSAWANT
 
