@@ -12,6 +12,8 @@ WriteMakefile(
         'Test::More' => 0,
         'version'    => 0,
     },
+    ($ExtUtils::MakeMaker::VERSION ge '6.30_00' ? # shamelessly copied this from Template Toolkit
+    (LICENSE           => 'perl') : ()),
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => 'Crypt-Random-NonBlocking-*' },
 );

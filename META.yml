@@ -1,10 +1,10 @@
 --- #YAML:1.0
 name:               Crypt-Random-NonBlocking
-version:            0.0.7
+version:            0.0.9
 abstract:           Provide non blocking randomness
 author:
     - David Dick <ddick@cpan.org>
-license:            unknown
+license:            perl
 distribution_type:  module
 configure_requires:
     ExtUtils::MakeMaker:  0
