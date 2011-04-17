@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Crypt-Random-NonBlocking
-version:            0.0.9
+version:            0.0.11
 abstract:           Provide non blocking randomness
 author:
     - David Dick <ddick@cpan.org>
@@ -11,6 +11,7 @@ configure_requires:
 build_requires:
     ExtUtils::MakeMaker:  0
 requires:
+    FileHandle:  0
     Test::More:  0
     version:     0
 no_index:
