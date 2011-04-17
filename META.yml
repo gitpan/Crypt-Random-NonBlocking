@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Crypt-Random-NonBlocking
-version:            0.0.11
+version:            0.0.15
 abstract:           Provide non blocking randomness
 author:
     - David Dick <ddick@cpan.org>

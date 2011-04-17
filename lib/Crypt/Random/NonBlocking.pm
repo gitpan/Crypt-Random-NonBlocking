@@ -6,7 +6,7 @@ use Carp();
 use English qw( -no_match_vars );
 use Readonly();
 
-our $VERSION = '0.0.11';
+our $VERSION = '0.0.15';
 
 my (
     $CRYPT_SILENT,      $PROV_RSA_FULL, $VERIFY_CONTEXT,
@@ -121,6 +121,9 @@ sub get {
     }
     else {
         my ($path) = '/dev/urandom';
+        if ( $OSNAME eq 'freebsd' ) {
+            $path = '/dev/random'; # FreeBSD's /dev/random is non-blocking
+        }
         my ($handle) = FileHandle->new( $path, Fcntl::O_RDONLY() );
         if ($handle) {
             my ($result) = $handle->read( my $buffer, $length );
@@ -152,7 +155,7 @@ Crypt::Random::NonBlocking - Provide non blocking randomness
 
 =head1 VERSION
 
-This document describes Crypt::Random::NonBlocking version 0.0.11
+This document describes Crypt::Random::NonBlocking version 0.0.15
 
 
 =head1 SYNOPSIS
@@ -160,7 +163,7 @@ This document describes Crypt::Random::NonBlocking version 0.0.11
     use Crypt::Random::NonBlocking();
 
     my $cryptnb = Crypt::Random::NonBlocking->new();
-    my $random_string_50_characters_long = $cryptnb->get(50);
+    my $random_string_50_bytes_long = $cryptnb->get(50);
   
 =head1 DESCRIPTION
 
@@ -233,7 +236,7 @@ amount of randomness
 
 =item C<Only read n bytes from path>
 
-The /dev/urandom device did not return the desired amount of random characters
+The /dev/urandom device did not return the desired amount of random bytes
 
 =item C<Failed to read from path>
 
