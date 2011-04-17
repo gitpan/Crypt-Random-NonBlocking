@@ -1,5 +1,8 @@
 Revision history for Crypt-Random-NonBlocking
 
+0.0.23  Mon Apr 18 07:56:17 2011
+       Added t/rand.t to actually test the module
+
 0.0.21  Mon Apr 18 07:00:17 2011
        Removed dependency Readonly entirely as it is a non-core module
 

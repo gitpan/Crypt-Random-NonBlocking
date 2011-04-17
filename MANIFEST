@@ -8,4 +8,5 @@ t/00.load.t
 t/perlcritic.t
 t/pod-coverage.t
 t/pod.t
+t/rand.t
 META.yml                                 Module meta-data (added by MakeMaker)

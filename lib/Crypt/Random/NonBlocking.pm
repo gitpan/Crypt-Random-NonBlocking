@@ -5,7 +5,7 @@ use strict;
 use Carp();
 use English qw( -no_match_vars );
 
-our $VERSION = '0.0.21';
+our $VERSION = '0.0.23';
 
 my $CRYPT_SILENT      = hex '40';
 my $PROV_RSA_FULL     = 1;
@@ -150,7 +150,7 @@ Crypt::Random::NonBlocking - Provide non blocking randomness
 
 =head1 VERSION
 
-This document describes Crypt::Random::NonBlocking version 0.0.21
+This document describes Crypt::Random::NonBlocking version 0.0.23
 
 
 =head1 SYNOPSIS
