@@ -1,5 +1,8 @@
 Revision history for Crypt-Random-NonBlocking
 
-0.0.15  Sun Apr 17 10:45:13 2011
+0.0.17  Sun Apr 17 20:42:17 2011
+       Added dependency Readonly to fix RT Ticket 67532 filed by YSAWANT
+
+0.0.11  Sun Apr 17 10:45:13 2011
        Initial release.
 
