@@ -1,5 +1,10 @@
 Revision history for Crypt-Random-NonBlocking
 
+0.0.25  Mon Apr 18 18:55:30 2011
+       Removed t/perlcritic.t due to other Perl::Critic policies being testing on cpan.org
+       Changed the interface to be Crypt::Random::NonBlocking::urandom();
+       Allowed urandom to be exported
+
 0.0.23  Mon Apr 18 07:56:17 2011
        Added t/rand.t to actually test the module
 

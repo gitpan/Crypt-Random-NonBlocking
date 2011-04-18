@@ -4,8 +4,14 @@ use warnings;
 use strict;
 use Carp();
 use English qw( -no_match_vars );
+use Exporter();
+*import = \&Exporter::import;
+our @EXPORT_OK = qw(
+  urandom
+);
+our %EXPORT_TAGS = ( 'all' => \@EXPORT_OK, );
 
-our $VERSION = '0.0.23';
+our $VERSION = '0.0.25';
 
 my $CRYPT_SILENT      = hex '40';
 my $PROV_RSA_FULL     = 1;
@@ -13,9 +19,12 @@ my $VERIFY_CONTEXT    = hex 'F0000000';
 my $W2K_MAJOR_VERSION = hex '5';
 my $W2K_MINOR_VERSION = 0;
 
-sub new {
-    my ($class) = @_;
-    my ($self) = bless {}, $class;
+my $_initialised;
+my $_context;
+my $_cryptgenrandom;
+my $_rtlgenrand;
+
+sub _init {
     if ( $OSNAME eq 'MSWin32' ) {
         require Win32;
         require Win32::API;
@@ -57,8 +66,8 @@ sub new {
                 Carp::croak
                   "Could not import CryptGenRandom: $EXTENDED_OS_ERROR";
             }
-            $self->{_context}        = $context;
-            $self->{_cryptgenrandom} = $crypt_gen_random;
+            $_context        = $context;
+            $_cryptgenrandom = $crypt_gen_random;
         }
         else {
             my $rtlgenrand =
@@ -72,17 +81,17 @@ _RTLGENRANDOM_PROTO_
                 Carp::croak
                   "Could not import SystemFunction036: $EXTENDED_OS_ERROR";
             }
-            $self->{_rtlgenrand} = $rtlgenrand;
+            $_rtlgenrand = $rtlgenrand;
         }
     }
     else {
         require FileHandle;
     }
-    return $self;
+    return;
 }
 
-sub get {
-    my ( $self, $length ) = @_;
+sub urandom {
+    my ($length) = @_;
 
     my $length_ok;
     if ( defined $length ) {
@@ -94,20 +103,22 @@ sub get {
         Carp::croak
           'The length argument must be supplied and must be an integer';
     }
+    if ( !$_initialised ) {
+        _init();
+        $_initialised = 1;
+    }
     if ( $OSNAME eq 'MSWin32' ) {
         my $buffer = chr(0) x $length;
-        if ( $self->{_cryptgenrandom} ) {
+        if ($_cryptgenrandom) {
 
-            my $result =
-              $self->{_cryptgenrandom}
-              ->Call( $self->{_context}, $length, $buffer );
+            my $result = $_cryptgenrandom->Call( $_context, $length, $buffer );
             if ( !$result ) {
                 Carp::croak "CryptGenRandom failed: $EXTENDED_OS_ERROR";
             }
         }
-        elsif ( $self->{_rtlgenrand} ) {
+        elsif ($_rtlgenrand) {
 
-            my $result = $self->{_rtlgenrand}->Call( $buffer, $length );
+            my $result = $_rtlgenrand->Call( $buffer, $length );
             if ( !$result ) {
                 Carp::croak "RtlGenRand failed: $EXTENDED_OS_ERROR";
             }
@@ -150,16 +161,21 @@ Crypt::Random::NonBlocking - Provide non blocking randomness
 
 =head1 VERSION
 
-This document describes Crypt::Random::NonBlocking version 0.0.23
+This document describes Crypt::Random::NonBlocking version 0.0.25
 
 
 =head1 SYNOPSIS
 
     use Crypt::Random::NonBlocking();
 
-    my $cryptnb = Crypt::Random::NonBlocking->new();
-    my $random_string_50_bytes_long = $cryptnb->get(50);
+    my $random_string_50_bytes_long = Crypt::Random::NonBlocking::urandom(50);
+
+OR
   
+    use Crypt::Random::NonBlocking qw( urandom );
+
+    my $random_string_50_bytes_long = urandom(50);
+
 =head1 DESCRIPTION
 
 This Module is intended to provide
@@ -173,15 +189,11 @@ or equal to Windows 2000.
 
 =over
 
-=item C<new>
-
-Initialise the native cryptographic libraries (if necessary) and load
-all the required Perl libraries
-
-=item C<get>
+=item C<urandom>
 
 This function accepts an integer and returns a string of the same size
-filled with random data.
+filled with random data.  The first call will initialise the native 
+cryptographic libraries (if necessary) and load all the required Perl libraries
 
 =back
 
